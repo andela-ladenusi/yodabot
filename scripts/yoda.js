@@ -19,8 +19,9 @@ module.exports = function (robot) {
 	});
 
 	robot.router.post('/experts', function (req, res) {
-		var experts = JSON.parse(req.body);
+		var experts = req.body;
 		console.log(experts);
+		return;
 		console.log(experts.payload);
 		robot.messageRoom('yoda-masters', experts);
 		res.end('Got data here');
