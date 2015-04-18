@@ -22,6 +22,7 @@ module.exports = function (robot) {
 			}
 			console.log('Successfully sent data!');
 			res.user = user;
+			res.send(user);
 		});
 	});
 
