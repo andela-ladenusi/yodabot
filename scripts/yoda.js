@@ -11,7 +11,7 @@ module.exports = function (robot) {
 		console.log(user);
 
 		robot.http('http://yodabot-api.herokuapp.com/questions')
-		// .header({'Content-Type': 'application/json'})
+		.headers({'Content-Type': 'application/json'})
 		.post(user)(function (err, res, body) {
 			console.log(err);
 			console.log('\n', res);
