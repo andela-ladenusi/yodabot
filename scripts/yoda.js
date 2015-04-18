@@ -3,18 +3,18 @@ module.exports = function (robot) {
 	robot.hear(/\<q\> (.*) #(.*)/i, function (res) {
 		res.send('Thank you for your question.\nI will let you know as soon as there\'s any response to your question.');
 		console.log(res.match);
-		var user = {};
-		user.id = res.message.user.id;
-		user.body = res.match[1];
-		user.tags = res.match[2];
-		user = JSON.stringify(user);
+		var user = JSON.stringify({
+			id: res.message.user.id,
+			body: res.match[1],
+			tags: res.match[2]
+		});
 		console.log(user);
 
 		robot.http('https://yodabot-api.herokuapp.com/questions')
 		.header({'Content-Type': 'application/json'})
 		.post(user)(function (err, res, body) {
 			console.log(err);
-			console.log('\n This is the response object of the POST ' + res);
+			console.log('\n', res);
 			console.log('\nThis is the body of the POST ' + body);
 			if(err) {
 				console.log('Encountered an error - ' + err);
@@ -51,12 +51,12 @@ module.exports = function (robot) {
 								// console.log(group.members);
 								var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
 								url += 'channel=' + group.members[j] + '&username=yodabot&text=Master Yoda Wants You';
-								robot.http(url).
-								post()(function (err, res, body) {
-									if(err) {
-										return err;
-									}
-								});
+								// robot.http(url).
+								// post()(function (err, res, body) {
+								// 	if(err) {
+								// 		return err;
+								// 	}
+								// });
 								robot.messageRoom('yoda-masters', 'Master Yoda Wants You - ' + group.members[j]);
 								// robot.http('http://localhost:5555/user/register')
 								// .post(member)(function (req, res) {
