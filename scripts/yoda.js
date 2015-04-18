@@ -3,7 +3,8 @@ module.exports = function (robot) {
 	robot.hear(/\<q\> (.*) #(.*)/i, function (res) {
 		res.send('Thank you for your question.\nI will let you know as soon as there\'s any response to your question.');
 		console.log(res.match);
-		var user = res.message.user;
+		var user = {};
+		user.id = res.message.user.id;
 		user.body = res.match[1];
 		user.tags = res.match[2];
 		console.log(user);
@@ -11,8 +12,8 @@ module.exports = function (robot) {
 		robot.http('https://yodabot-api.herokuapp.com/questions')
 		.post(user)(function (err, res, body) {
 			console.log(err);
-			console.log('\n' + res);
-			console.log('\n' + body);
+			console.log('\n This is the response object of the POST ' + res);
+			console.log('\nThis is the body of the POST ' + body);
 			if(err) {
 				console.log('Encountered an error - ' + err);
 				return;
