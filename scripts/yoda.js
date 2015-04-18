@@ -7,6 +7,7 @@ module.exports = function (robot) {
 		user.id = res.message.user.id;
 		user.body = res.match[1];
 		user.tags = res.match[2];
+		user = JSON.stringify(user);
 		console.log(user);
 
 		robot.http('https://yodabot-api.herokuapp.com/questions')
