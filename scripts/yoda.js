@@ -7,11 +7,11 @@ module.exports = function (robot) {
 		user.id = res.message.user.id;
 		user.body = res.match[1];
 		user.tags = res.match[2];
-		user = JSON.stringify(user);
+		// user = JSON.stringify(user);
 		console.log(user);
 
 		robot.http('https://yodabot-api.herokuapp.com/questions')
-		.header('Accept', 'application/json')
+		.header('Content-Type', 'application/json')
 		.post(user)(function (err, res, body) {
 			console.log(err);
 			console.log('\n This is the response object of the POST ' + res);
