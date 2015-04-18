@@ -8,7 +8,7 @@ module.exports = function (robot) {
 		user.tags = res.match[2];
 		console.log(user);
 
-		robot.http('http://localhost:5555/questions')
+		robot.http('https://yodabot-api.herokuapp.com/questions')
 		.post(user)(function (err, res, body) {
 			console.log(err);
 			console.log('\n' + res);
