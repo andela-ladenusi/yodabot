@@ -10,6 +10,9 @@ module.exports = function (robot) {
 
 		robot.http('http://localhost:5555/questions')
 		.post(user)(function (err, res, body) {
+			console.log(err);
+			console.log('\n' + res);
+			console.log('\n' + body);
 			if(err) {
 				console.log('Encountered an error - ' + err);
 				return;
