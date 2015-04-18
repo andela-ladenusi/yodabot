@@ -1,8 +1,8 @@
 module.exports = function (robot) {
 	
-	robot.hear(/#+/i, function (res) {
+	robot.hear(/\/question #(.*) (.*)/i, function (res) {
 		res.send('Thank you for your question.\nI will let you know as soon as there\'s any response to your question.');
-		// console.log(res.message.user, res.match);
+		console.log(res.match);
 		var user = res.message.user;
 		user.question = res.message.rawText;
 		user.tag = res.match[0];
