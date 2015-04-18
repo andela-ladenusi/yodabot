@@ -11,7 +11,7 @@ module.exports = function (robot) {
 		robot.http('http://localhost:5555/questions')
 		.post(user)(function (err, res, body) {
 			if(err) {
-				console.log('Encountered an error');
+				console.log('Encountered an error - ' + err);
 				return;
 			}
 			console.log('Successfully sent data!');
