@@ -4,9 +4,10 @@ module.exports = function (robot) {
 		res.send('Thank you for your question.\nI will let you know as soon as there\'s any response to your question.');
 		console.log(res.match);
 		var user = res.message.user;
-		user.question = res.message.rawText;
-		user.tag = res.match[0];
+		user.body = res.match[1];
+		user.tags = res.match[2];
 		console.log(user);
+
 		robot.http('http://localhost:5555/questions')
 		.post(user)(function (err, res, body) {
 			if(err) {
@@ -22,7 +23,7 @@ module.exports = function (robot) {
 		var experts = req.body;
 		console.log(experts);
 		robot.messageRoom('yoda-masters', experts);
-		res.end('Got data here');
+		res.end('Data received by Master Yoda');
 	});
 
 	var yodaMaster = {
@@ -43,7 +44,7 @@ module.exports = function (robot) {
 							if(group.members[j] !== 'U04EFU4CA') {
 								// console.log(group.members);
 								// robot.http('https://slack.com/api/chat.postMessage')
-								// robot.messageRoom(group.members[j], 'Yoda Wants You - ' + group.members[j]);
+								robot.messageRoom('yoda-masters', 'Master Yoda Wants You - ' + group.members[j]);
 							}
 						}
 					}
