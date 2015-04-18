@@ -10,19 +10,21 @@ module.exports = function (robot) {
 		});
 		console.log(user);
 
-		robot.http('https://yodabot-api.herokuapp.com/questions')
+		robot.http('http://yodabot-api.herokuapp.com/questions')
 		.header({'Content-Type': 'application/json'})
-		.post(user)(function (err, res, body) {
-			console.log(err);
-			console.log('\n', res);
-			console.log('\nThis is the body of the POST ' + body);
-			if(err) {
-				console.log('Encountered an error - ' + err);
-				return;
-			}
-			console.log('Successfully sent data!');
-			res.user = user;
-		});
+		.post(user)(err, res, body)
+
+		// (function (err, res, body) {
+		// 	console.log(err);
+		// 	console.log('\n', res);
+		// 	console.log('\nThis is the body of the POST ' + body);
+		// 	if(err) {
+		// 		console.log('Encountered an error - ' + err);
+		// 		return;
+		// 	}
+		// 	console.log('Successfully sent data!');
+		// 	res.user = user;
+		// });
 	});
 
 	robot.router.post('/experts', function (req, res) {
