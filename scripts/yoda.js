@@ -106,7 +106,7 @@ module.exports = function (robot) {
 					console.log('Encountered an error!');
 					return;
 				}
-				console.log(JSON.parse(body));
+				console.log(JSON.parse(body).userId);
 				// res.send(body);
 				apprenticeId = JSON.parse(body).userId;
 			});
