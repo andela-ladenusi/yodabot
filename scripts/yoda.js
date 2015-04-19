@@ -106,12 +106,12 @@ module.exports = function (robot) {
 					console.log('Encountered an error!');
 					return;
 				}
-				console.log(res, body);
-				res.send(body);
+				console.log(JSON.parse(body));
+				// res.send(body);
 				apprenticeId = JSON.parse(body).userId;
 			});
 		var msgAnswer = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
-				msgAnswer += 'channel=' + apprenticeId + '&username=yodabot&text=' + answer.content;
+				msgAnswer += 'channel=' + apprenticeId + '&username=yodabot&text=' + JSON.parse(answer).content;
 				console.log(msgAnswer);
 		robot.http(msgAnswer).
 		post()(function (err, res, body) {
