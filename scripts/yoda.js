@@ -1,6 +1,6 @@
 module.exports = function (robot) {
   
-  robot.hear(/\<q\> (.*) #(.*)/i, function (res) {
+  robot.hear(/\q\: (.*) #(.*)/i, function (res) {
     res.send('Thank you for your question.\nI will let you know as soon as there\'s any response to your question.');
     console.log(res.match);
     var user = JSON.stringify({
@@ -67,8 +67,7 @@ module.exports = function (robot) {
     }
   };
 
-
-  robot.hear(/\<a\> (.*) #(.*)/i, function (res) {
+  robot.hear(/\a\: (.*) #(.*)/i, function (res) {
     res.send('Wonderful mind!.\nLet\'s see if what you bring in makes you a master or an apprentice still.');
     console.log(res.match);
     var answer = JSON.stringify({
