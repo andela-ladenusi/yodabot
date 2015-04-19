@@ -81,7 +81,7 @@ module.exports = function (robot) {
 			content: res.match[1],
 			question_id: res.match[2]
 		});
-		var apprenticeId;
+		var apprentice = {};
 		console.log(answer);
 
 		robot.http('http://yodabot-api.herokuapp.com/answers')
@@ -108,10 +108,10 @@ module.exports = function (robot) {
 				}
 				console.log(JSON.parse(body).userId);
 				// res.send(body);
-				apprenticeId = JSON.parse(body).userId;
+				apprentice.id = JSON.parse(body).userId;
 			});
 		var msgAnswer = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
-				msgAnswer += 'channel=' + apprenticeId + '&username=yodabot&text=' + JSON.parse(answer).content;
+				msgAnswer += 'channel=' + apprentice.id + '&username=yodabot&text=' + JSON.parse(answer).content;
 				console.log(msgAnswer);
 		robot.http(msgAnswer).
 		post()(function (err, res, body) {
