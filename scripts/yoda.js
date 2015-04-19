@@ -108,8 +108,7 @@ module.exports = function (robot) {
 				console.log(JSON.parse(body).userId);
 				// res.send(body);
 				apprenticeId = JSON.parse(body).userId;
-			});
-		var msgAnswer = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
+				var msgAnswer = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
 				msgAnswer += 'channel=' + apprenticeId + '&username=yodabot&text=' + JSON.parse(answer).content;
 				console.log(apprenticeId);
 				console.log(msgAnswer);
@@ -119,6 +118,8 @@ module.exports = function (robot) {
 				return err;
 			}
 		});
+			});
+
 
 	});
 	yodaMaster.getGroupMembers();
