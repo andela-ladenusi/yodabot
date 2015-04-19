@@ -67,6 +67,23 @@ module.exports = function (robot) {
     }
   };
 
+  robot.respond(/blocks/i, function (res) {
+     // var url = 'https://knowledgebot.firebaseio.com/questions.json';
+     // robot.http(url)
+     //    .get()(function (err, resp, body) {
+     //        if(err) {
+     //      console.log('Encountered an error!');
+     //      return;
+     //        }
+     //    var questions = JSON.parse(body);
+      
+      res.send('hi');
+      res.send('hi');
+
+        // });
+
+  });
+
   robot.hear(/\a\: (.*) #(.*)/i, function (res) {
     res.send('Wonderful mind!.\nLet\'s see if what you bring in makes you a master or an apprentice still.');
     console.log(res.match);
