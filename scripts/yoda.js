@@ -57,7 +57,7 @@ module.exports = function (robot) {
 								// 		return err;
 								// 	}
 								// });
-								robot.messageRoom('yoda-masters', 'Master Yoda Wants You - ' + group.members[j]);
+								// robot.messageRoom('yoda-masters', 'Master Yoda Wants You - ' + group.members[j]);
 								// robot.http('http://localhost:5555/user/register')
 								// .post(member)(function (req, res) {
 								// 	var 
@@ -97,8 +97,8 @@ module.exports = function (robot) {
 			console.log('Successfully sent data!');
 			res.answer = answer;
 		});
-		console.log(JSON.parse(answer));
-    var url = 'https://knowledgebot.firebaseio.com/questions/' + JSON.parse(answer.question_id) + '.json';
+		console.log(JSON.parse(answer).question_id);
+    var url = 'https://knowledgebot.firebaseio.com/questions/' + JSON.parse(answer).question_id + '.json';
     console.log(url);
 		robot.http(url)
 			.get()(function (err, res, body) {
