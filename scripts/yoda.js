@@ -105,7 +105,7 @@ module.exports = function (robot) {
 					return;
 				}
 				apprenticeId = JSON.parse(body).userId;
-			}
+			});
 			var msgAnswer = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
 					msgAnswer += 'channel=' + apprenticeId + '&username=yodabot&text=' + answer.content;
 						robot.http(msgAnswer).
