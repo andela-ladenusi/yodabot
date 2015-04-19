@@ -68,19 +68,28 @@ module.exports = function (robot) {
   };
 
   robot.respond(/blocks/i, function (res) {
-     // var url = 'https://knowledgebot.firebaseio.com/questions.json';
-     // robot.http(url)
-     //    .get()(function (err, resp, body) {
-     //        if(err) {
-     //      console.log('Encountered an error!');
-     //      return;
-     //        }
-     //    var questions = JSON.parse(body);
+     var url = 'https://knowledgebot.firebaseio.com/questions.json';
+     robot.http(url)
+        .get()(function (err, resp, body) {
+            if(err) {
+          console.log('Encountered an error!');
+          return;
+            }
+        var questions = JSON.parse(body);
+        var keys = Object.keys(questions),
+        len = 10,
+        i = 0,
+        question_id,
+        question;
+        while (i < 10) {
+           question_id = keys[i];
+           question = questions[question_id];
+           res.send('#{question_id} #{question.body}');
+           i += 1;
+        }
       
-      res.send('hi');
-      res.send('hi');
 
-        // });
+        });
 
   });
 
