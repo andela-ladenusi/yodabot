@@ -88,8 +88,8 @@ module.exports = function (robot) {
 		.headers({'Content-Type': 'application/json'})
 		.post(answer)(function (err, res, body) {
 			console.log(err);
-			console.log('\n', res);
-			console.log('\nThis is the body of the POST ' + body);
+			// console.log('\n', res);
+			// console.log('\nThis is the body of the POST ' + body);
 			if(err) {
 				console.log('Encountered an error - ' + err);
 				return;
@@ -98,12 +98,15 @@ module.exports = function (robot) {
 			res.answer = answer;
 		});
     var url = 'https://knowledgebot.firebaseio.com/questions/' + answer.question_id + '.json';
+    console.log(url);
 		robot.http(url)
 			.get()(function (err, res, body) {
 				if(err) {
 					console.log('Encountered an error!');
 					return;
 				}
+				console.log(res, body);
+				res.send(body);
 				apprenticeId = JSON.parse(body).userId;
 			});
 		var msgAnswer = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
