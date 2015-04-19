@@ -86,7 +86,7 @@ module.exports = function (robot) {
           if (keys[i]) {
            question_id = keys[i];
            question = questions[question_id];
-           res.send('#' + question_id + '' + question.body);
+           res.send('#' + question_id + '--------' + question.body);
          }
            i -= 1;
         }
