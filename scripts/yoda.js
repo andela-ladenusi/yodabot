@@ -77,15 +77,18 @@ module.exports = function (robot) {
             }
         var questions = JSON.parse(body);
         var keys = Object.keys(questions),
-        len = 10,
-        i = 0,
+        len = keys.length - 10,
+        i = keys.length - 1,
         question_id,
         question;
-        while (i < 10) {
+        res.send('The last 10 questions are;');
+        while (i > len) {
+          if (keys[i]) {
            question_id = keys[i];
            question = questions[question_id];
-           res.send('#{question_id} #{question.body}');
-           i += 1;
+           res.send('#' + question_id + '' + question.body);
+         }
+           i -= 1;
         }
       
 
