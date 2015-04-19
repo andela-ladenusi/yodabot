@@ -81,6 +81,7 @@ module.exports = function (robot) {
 			content: res.match[1],
 			question_id: res.match[2]
 		});
+		var apprenticeId;
 		console.log(answer);
 
 		robot.http('http://yodabot-api.herokuapp.com/answers')
@@ -96,6 +97,24 @@ module.exports = function (robot) {
 			console.log('Successfully sent data!');
 			res.answer = answer;
 		});
+    var url = 'https://knowledgebot.firebaseio.com/questions/' + answer.question_id + '.json';
+		robot.http(url)
+			.get()(function (err, res, body) {
+				if(err) {
+					console.log('Encountered an error!');
+					return;
+				}
+				apprenticeId = JSON.parse(body).userId;
+			}
+			var msgAnswer = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
+					msgAnswer += 'channel=' + apprenticeId + '&username=yodabot&text=' + answer.content;
+						robot.http(msgAnswer).
+						post()(function (err, res, body) {
+							if(err) {
+								return err;
+							}
+						});
+
 	});
 	yodaMaster.getGroupMembers();
 };
