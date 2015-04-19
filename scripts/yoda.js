@@ -97,6 +97,7 @@ module.exports = function (robot) {
 			console.log('Successfully sent data!');
 			res.answer = answer;
 		});
+		console.log(answer);
     var url = 'https://knowledgebot.firebaseio.com/questions/' + answer.question_id + '.json';
     console.log(url);
 		robot.http(url)
