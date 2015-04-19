@@ -69,5 +69,33 @@ module.exports = function (robot) {
 			});
 		}
 	};
+
+
+	robot.hear(/\<a\> (.*) #(.*)/i, function (res) {
+		res.send('Wonderful mind!.\nLet\'s see if what you bring in makes you a master or an apprentice still.');
+		console.log(res.match);
+		var answer = JSON.stringify({
+			id: res.message.user.id,
+			name: res.message.user.name,
+			email_address: res.message.user.email_address,
+			content: res.match[1],
+			question_id: res.match[2]
+		});
+		console.log(answer);
+
+		robot.http('http://yodabot-api.herokuapp.com/answers')
+		.headers({'Content-Type': 'application/json'})
+		.post(answer)(function (err, res, body) {
+			console.log(err);
+			console.log('\n', res);
+			console.log('\nThis is the body of the POST ' + body);
+			if(err) {
+				console.log('Encountered an error - ' + err);
+				return;
+			}
+			console.log('Successfully sent data!');
+			res.answer = answer;
+		});
+	});
 	yodaMaster.getGroupMembers();
 };
