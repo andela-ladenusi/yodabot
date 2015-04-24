@@ -42,12 +42,23 @@ module.exports = function (robot) {
         for(var i = 0; i < req.groups.length; i++) {
           if(req.groups[i].id === 'G04F44C29') {
             var group = req.groups[i];
-            console.log(group);
+            // console.log(group);
             for(var j = 0; j < group.members.length; j++) {
               if(group.members[j] !== 'U04EFU4CA') {
-                // console.log(group.members);
-                var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
-                url += 'channel=' + group.members[j] + '&username=yodabot&text=Master Yoda Wants You';
+
+                console.log(group.members);
+                var checkRoomUrl = 'https://slack.com/api/im.open?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&user=' + group.members[j];
+                console.log('test test test test!\n')
+                robot.http(checkRoomUrl)
+                .get()(function (err, res, body) {
+                  if(err) {
+                    return err;
+                  }
+                  console.log('This is the response object', body);
+                  console.log('\n');
+                });
+                // var url = 'https://slack.com/api/chat.postMessage?' + token;
+                // url += 'channel=' + group.members[j] + '&username=yodabot&text=Master Yoda Wants You';
                 // robot.http(url).
                 // post()(function (err, res, body) {
                 //  if(err) {
@@ -67,7 +78,7 @@ module.exports = function (robot) {
     }
   };
 
-  robot.respond(/blocks/i, function (res) {
+  robot.respond(/#blocks/i, function (res) {
      var url = 'https://knowledgebot.firebaseio.com/questions.json';
      robot.http(url)
         .get()(function (err, resp, body) {
@@ -128,11 +139,11 @@ module.exports = function (robot) {
           console.log('Encountered an error!');
           return;
         }
-        apprenticeId = JSON.parse(body).userId;
+        var apprenticeId = JSON.parse(body).userId;
         var msgAnswer = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
         msgAnswer += 'channel=' + apprenticeId + '&username=yodabot&text=' + JSON.parse(answer).content;
-        robot.http(msgAnswer).
-        post()(function (err, res, body) {
+        robot.http(msgAnswer)
+        .post()(function (err, res, body) {
           if(err) {
             return err;
           }
