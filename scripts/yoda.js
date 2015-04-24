@@ -55,14 +55,16 @@ module.exports = function (robot) {
                   }
                   var im = JSON.parse(body);
                   if(group.members[j] === 'U02UMGF3G') {
-                    var url = 'https://slack.com/api/chat.postMessage?' + token;
+                    var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
                     url += 'channel=' + im.channel.id + '&username=yodabot&text=Master Yoda Wants You';
                     robot.http(url)
-                    .post()(function (err, res, body) {
-                     if(err) {
-                       return err;
+                    .post()(function (error, res, data) {
+                     if(error) {
+                       return error;
                      }
                      console.log(im);
+                     console.log('\n');
+                     console.log(data);
                     });
                   }
                 });
