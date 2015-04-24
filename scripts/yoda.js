@@ -46,17 +46,18 @@ module.exports = function (robot) {
             for(var j = 0; j < group.members.length; j++) {
               if(group.members[j] !== 'U04EFU4CA') {
 
-                console.log(group.members);
                 var checkRoomUrl = 'https://slack.com/api/im.open?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&user=' + group.members[j];
-                console.log('test test test test!\n')
-                robot.http(checkRoomUrl)
-                .get()(function (err, res, body) {
-                  if(err) {
-                    return err;
-                  }
-                  console.log('This is the response object', body);
-                  console.log('\n');
-                });
+
+                if(group.members[j] === 'U02UMGF3G') {
+                  robot.http(checkRoomUrl)
+                  .get()(function (err, res, body) {
+                    if(err) {
+                      return err;
+                    }
+                    var im = JSON.parse(body);
+                    robot.messageRoom(im.channel.id, 'Master Yoda Wants You!');
+                  });
+                }
                 // var url = 'https://slack.com/api/chat.postMessage?' + token;
                 // url += 'channel=' + group.members[j] + '&username=yodabot&text=Master Yoda Wants You';
                 // robot.http(url).
