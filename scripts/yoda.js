@@ -62,7 +62,7 @@ module.exports = function (robot) {
                      if(err) {
                        return err;
                      }
-                     console.log(body);
+                     console.log(im);
                     });
                   }
                 });
