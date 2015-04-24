@@ -56,12 +56,13 @@ module.exports = function (robot) {
                   var im = JSON.parse(body);
                   if(group.members[j] === 'U02UMGF3G') {
                     var url = 'https://slack.com/api/chat.postMessage?' + token;
-                    url += 'channel=' + im.channel.id + '&as_user=true&text=Master Yoda Wants You';
+                    url += 'channel=' + im.channel.id + '&username=yodabot&text=Master Yoda Wants You';
                     robot.http(url)
                     .post()(function (err, res, body) {
                      if(err) {
                        return err;
                      }
+                     console.log(body);
                     });
                   }
                 });
