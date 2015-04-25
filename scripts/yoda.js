@@ -26,7 +26,9 @@ module.exports = function (robot) {
       }
       languages = _.uniq(languages);
       user.setLanguages(languages);
-      res.send('I found these skills - `' + languages.toString().replace(',', ', ') + '`');
+      res.send('I found these skills - `' + languages.toString().replace(/,/g, ', ') + '`');
+      console.log(user);
+      console.log('\nTop part');
     });
     console.log(user);
   });
