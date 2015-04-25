@@ -13,13 +13,15 @@ module.exports = function (robot) {
       }
       console.log('No errors for github!');
       var i, repos = JSON.parse(body);
-      console.log(repos);
+      // console.log(repos);
       for(i = 0; i < repos.length; i++) {
         newUser.languages.push(repos[i].language);
         console.log(repos[i].language);
       }
+      console.log('\nInside the get() - ', newUser);
     });
-    res.send('We found these skills - ', newUser.languages.toString());
+    console.log('\nOutside the get() - ',newUser);
+    res.send('We found these skills - ' + newUser.languages.toString());
   });
   
   robot.hear(/\q\: (.*) #\[(.*)\]/i, function (res) {
