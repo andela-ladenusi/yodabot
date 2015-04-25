@@ -3,12 +3,14 @@ var _ = require('lodash');
 module.exports = function (robot) {
   robot.hear(/(--ghuser|github-username): @(.*)/i, function (res) {
     console.log(res.match);
-    var user = {};
-    var languages = [];
-    var getLanguages = function (languages) {
-      user.languages = languages;
-      return user;
+    var user = res.message.user;
+    user.channel = res.message.rawMessage.channel;
+    user.setLanguages = function (languages) {
+      this.languages = languages;
+      return this.languages;
     };
+    var languages = [];
+
     var url = 'https://api.github.com/users/' + res.match[2] + '/repos';
     console.log(url);
     robot.http(url)
@@ -23,11 +25,9 @@ module.exports = function (robot) {
         languages.push(repos[i].language);
       }
       languages = _.uniq(languages);
-      getLanguages(languages);
-      res.send('I found these skills - `' + languages + '`');
+      user.setLanguages(languages);
+      res.send('I found these skills - `' + languages.toString().replace(',', ', ') + '`');
     });
-    console.log(res.message);
-    console.log('\n');
     console.log(user);
   });
   
