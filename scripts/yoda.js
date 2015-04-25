@@ -1,8 +1,14 @@
 var _ = require('lodash');
+
 module.exports = function (robot) {
   robot.hear(/(--ghuser|github-username): @(.*)/i, function (res) {
     console.log(res.match);
-    var newUser = {languages: []};
+    var user = {};
+    var languages = [];
+    var getLanguages = function (languages) {
+      user.languages = languages;
+      return user;
+    };
     var url = 'https://api.github.com/users/' + res.match[2] + '/repos';
     console.log(url);
     robot.http(url)
@@ -11,16 +17,18 @@ module.exports = function (robot) {
         console.log('Couldn\'t fetch github repos.');
         return err;
       }
-      console.log('No errors for github!');
       var i, repos = JSON.parse(body);
-      // console.log(repos);
+
       for(i = 0; i < repos.length; i++) {
-        newUser.languages.push(repos[i].language);
-        console.log(repos[i].language);
+        languages.push(repos[i].language);
       }
-      console.log('\nInside the get() - ', newUser);
-      res.send('We found these skills - `' + _.uniq(newUser.languages) + '`');
+      languages = _.uniq(languages);
+      getLanguages(languages);
+      res.send('I found these skills - `' + languages) + '`');
     });
+    console.log(res.message);
+    console.log('\n');
+    console.log(user);
   });
   
   robot.hear(/\q\: (.*) #\[(.*)\]/i, function (res) {
