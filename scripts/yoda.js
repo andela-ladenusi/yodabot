@@ -1,7 +1,27 @@
 module.exports = function (robot) {
+
+  robot.hear(/(--ghuser|github-username): @(.*)/i, function (res) {
+    console.log(res.match);
+    var newUser = {languages: []};
+    var url = 'https://api.github.com/users/' + res.match[1] + '/repos';
+    console.log(url);
+    robot.http(url)
+    .get()(function (err, res, body) {
+      if(err) {
+        console.log('Couldn\'t fetch github repos.');
+        return err;
+      }
+      console.log('No errors for github!');
+      var i, repos = body;
+      for(i = 0; i < repos.length; i++) {
+        newUser.languages.push(repos[i].language);
+        console.log(repos[i].language);
+      }
+    });
+    res.send('We found these skills - ', newUser.languages.toString());
+  });
   
   robot.hear(/\q\: (.*) #\[(.*)\]/i, function (res) {
-    res.send('Thank you for your question.\nI will let you know as soon as there\'s any response to your question.');
     console.log(res.match);
     var user = JSON.stringify({
       id: res.message.user.id,
@@ -17,9 +37,11 @@ module.exports = function (robot) {
         console.log('Encountered an error - ' + err);
         return;
       }
-      console.log('Successfully sent data!');
+      console.log('Successfully sent question!');
       res.user = user;
     });
+
+    res.send('Thank you for your question.\nI will let you know as soon as there\'s any response to your question.');
   });
 
   robot.router.post('/experts', function (req, res) {
@@ -38,11 +60,11 @@ module.exports = function (robot) {
           return;
         }
         var req = JSON.parse(body);
-        // console.log(req.groups);
+
         for(var i = 0; i < req.groups.length; i++) {
           if(req.groups[i].id === 'G04F44C29') {
             var group = req.groups[i];
-            // console.log(group);
+
             for(var j = 0; j < group.members.length; j++) {
               if(group.members[j] !== 'U04EFU4CA') {
 
@@ -55,8 +77,9 @@ module.exports = function (robot) {
                   }
                   var im = JSON.parse(body);
                   console.log(im);
+                  var text = 'Give me your github username in this format - `--ghuser: @username`';
                   var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
-                  url += 'channel=' + im.channel.id + '&as_user=true&text=Master Yoda Wants You';
+                  url += 'channel=' + im.channel.id + '&as_user=true&text=' + text;
                   console.log(url);
                   robot.http(url)
                   .post()(function (error, res, data) {
@@ -66,19 +89,6 @@ module.exports = function (robot) {
                    console.log(data);
                   });
                 });
-                // var url = 'https://slack.com/api/chat.postMessage?' + token;
-                // url += 'channel=' + group.members[j] + '&username=yodabot&text=Master Yoda Wants You';
-                // robot.http(url).
-                // post()(function (err, res, body) {
-                //  if(err) {
-                //    return err;
-                //  }
-                // });
-                // robot.messageRoom('yoda-masters', 'Master Yoda Wants You - ' + group.members[j]);
-                // robot.http('http://localhost:5555/user/register')
-                // .post(member)(function (req, res) {
-                //  var 
-                // });
               }
             }
           }
