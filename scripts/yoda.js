@@ -5,9 +5,14 @@ module.exports = function (robot) {
     console.log(res.match);
     var user = res.message.user;
     user.channel = res.message.rawMessage.channel;
-    user.setLanguages = function (languages) {
-      this.languages = languages;
-      return this.languages;
+    var getLangs = function (languages) {
+      return {
+        langs: languages,
+        setLangs: function (user) {
+          user.languages = this.langs;
+          return user;
+        }
+      };
     };
     var languages = [];
 
@@ -25,12 +30,13 @@ module.exports = function (robot) {
         languages.push(repos[i].language);
       }
       languages = _.uniq(languages);
-      user.setLanguages(languages);
+      getLangs(languages);
       res.send('I found these skills - `' + languages.toString().replace(/,/g, ', ') + '`');
+      getLangs().setLangs(user);
       console.log(user);
-      console.log('\nTop part');
+      console.log('\nInside HTTP');
     });
-    console.log(user);
+    console.log('\nOutside HTTP - ', user);
   });
   
   robot.hear(/\q\: (.*) #\[(.*)\]/i, function (res) {
