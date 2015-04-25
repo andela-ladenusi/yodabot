@@ -22,7 +22,9 @@ module.exports = function (robot) {
       var i, repos = JSON.parse(body);
 
       for(i = 0; i < repos.length; i++) {
-        languages.push(repos[i].language);
+        if(repos[i].language) {
+          languages.push(repos[i].language);
+        }
       }
       languages = _.uniq(languages);
       user.setLanguages(languages);
