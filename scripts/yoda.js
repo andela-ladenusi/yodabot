@@ -33,8 +33,9 @@ module.exports = function (robot) {
       console.log(newUser);
     });
   });
-  setTimeout(function () {
-    console.log('In timeout - \n')
+  
+  robot.hear(/--rem-skill: #\[(.*)\]/i, function (res) {
+    console.log(res.match[2]);
     console.log(newUser);
   });
   
