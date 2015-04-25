@@ -1,5 +1,5 @@
+var _ = require('lodash');
 module.exports = function (robot) {
-
   robot.hear(/(--ghuser|github-username): @(.*)/i, function (res) {
     console.log(res.match);
     var newUser = {languages: []};
@@ -19,7 +19,7 @@ module.exports = function (robot) {
         console.log(repos[i].language);
       }
       console.log('\nInside the get() - ', newUser);
-      res.send('We found these skills - ' + newUser.languages.toString());
+      res.send('We found these skills - ' + _.uniq(newUser.languages).split(',', ', '));
     });
   });
   
