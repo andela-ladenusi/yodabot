@@ -3,7 +3,7 @@ module.exports = function (robot) {
   robot.hear(/(--ghuser|github-username): @(.*)/i, function (res) {
     console.log(res.match);
     var newUser = {languages: []};
-    var url = 'https://api.github.com/users/' + res.match[1] + '/repos';
+    var url = 'https://api.github.com/users/' + res.match[2] + '/repos';
     console.log(url);
     robot.http(url)
     .get()(function (err, res, body) {
