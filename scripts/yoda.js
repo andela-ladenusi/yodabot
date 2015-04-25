@@ -19,7 +19,7 @@ module.exports = function (robot) {
         console.log(repos[i].language);
       }
       console.log('\nInside the get() - ', newUser);
-      res.send('We found these skills - ' + _.uniq(newUser.languages).split(',', ', '));
+      res.send('We found these skills - `' + _.uniq(newUser.languages) + '`');
     });
   });
   
