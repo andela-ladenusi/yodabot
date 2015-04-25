@@ -35,7 +35,8 @@ module.exports = function (robot) {
   });
   
   robot.hear(/--rem-skill: #\[(.*)\]/i, function (res) {
-    console.log(res.match[2]);
+    console.log('\n');
+    console.log(res.match);
     console.log(newUser);
   });
   
