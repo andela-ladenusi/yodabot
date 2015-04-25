@@ -31,6 +31,9 @@ module.exports = function (robot) {
       res.send('I found these skills - `' + languages.toString().replace(/,/g, ', ') + '`');
       console.log(user);
     });
+    setTimeout(function () {
+      console.log(user);
+    }, 5000);
   });
   
   robot.hear(/\q\: (.*) #\[(.*)\]/i, function (res) {
