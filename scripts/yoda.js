@@ -6,7 +6,7 @@ module.exports = function (robot) {
     var url = 'https://api.github.com/users/' + res.match[2] + '/repos';
     console.log(url);
     robot.http(url)
-    .get()(function (err, res, body) {
+    .get()(function (err, resp, body) {
       if(err) {
         console.log('Couldn\'t fetch github repos.');
         return err;
