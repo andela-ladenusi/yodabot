@@ -38,6 +38,17 @@ module.exports = function (robot) {
     console.log('\n');
     console.log(res.match);
     console.log(newUser);
+    if(res.match[1]) {
+      var unwantedSkills = res.match[1].split(/,\s/);
+      var i, index;
+      for(i = 0; i < unwantedSkills.length; i++) {
+        index = newUser.languages.indexOf(unwantedSkills[i]);
+        if(index > -1) {
+          newUser.languages.splice(index, 1);
+        }
+      }
+      res.send('These are your skills - `' + newUser.languages.toString().replace(/,/g, ', ') + '`');
+    }
   });
   
   robot.hear(/\q\: (.*) #\[(.*)\]/i, function (res) {
