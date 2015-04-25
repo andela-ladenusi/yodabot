@@ -1,11 +1,12 @@
 var _ = require('lodash');
 
 module.exports = function (robot) {
+  var newUser;
   robot.hear(/(--ghuser|github-username): @(.*)/i, function (res) {
     console.log(res.match);
-    var user = res.message.user;
-    user.channel = res.message.rawMessage.channel;
-    user.setLanguages = function (languages) {
+    newUser = res.message.user;
+    newUser.channel = res.message.rawMessage.channel;
+    newUser.setLanguages = function (languages) {
       this.languages = languages;
       return this.languages;
     };
@@ -27,13 +28,14 @@ module.exports = function (robot) {
         }
       }
       languages = _.uniq(languages);
-      user.setLanguages(languages);
+      newUser.setLanguages(languages);
       res.send('I found these skills - `' + languages.toString().replace(/,/g, ', ') + '`');
-      console.log(user);
+      console.log(newUser);
     });
-    setTimeout(function () {
-      console.log(user);
-    }, 5000);
+  });
+  setTimeout(function () {
+    console.log('In timeout - \n')
+    console.log(newUser);
   });
   
   robot.hear(/\q\: (.*) #\[(.*)\]/i, function (res) {
