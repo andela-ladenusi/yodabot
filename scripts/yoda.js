@@ -19,9 +19,8 @@ module.exports = function (robot) {
         console.log(repos[i].language);
       }
       console.log('\nInside the get() - ', newUser);
+      res.send('We found these skills - ' + newUser.languages.toString());
     });
-    console.log('\nOutside the get() - ',newUser);
-    res.send('We found these skills - ' + newUser.languages.toString());
   });
   
   robot.hear(/\q\: (.*) #\[(.*)\]/i, function (res) {
