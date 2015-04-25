@@ -24,7 +24,7 @@ module.exports = function (robot) {
       }
       languages = _.uniq(languages);
       getLanguages(languages);
-      res.send('I found these skills - `' + languages) + '`');
+      res.send('I found these skills - `' + languages + '`');
     });
     console.log(res.message);
     console.log('\n');
