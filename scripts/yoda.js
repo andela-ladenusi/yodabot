@@ -141,6 +141,7 @@ module.exports = function (robot) {
          return error;
        }
        console.log(data);
+       return;
       });
     });
   });
