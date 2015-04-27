@@ -121,29 +121,32 @@ module.exports = function (robot) {
 
   robot.router.post('/experts', function (req, res) {
     var i, j, experts = req.body;
+    var checkRoomUrl = 'https://slack.com/api/im.open?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&user=';
     console.log(experts);
-    var checkRoomUrl = 'https://slack.com/api/im.open?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&user=' + experts.user.slack;
+    for(i = 0; i < experts.length; i++) {
+       checkRoomUrl + experts[i].slack;
 
-    robot.http(checkRoomUrl)
-    .get()(function (err, res, body) {
-      if(err) {
-        return err;
-      }
-      var im = JSON.parse(body);
-      console.log(im);
-      var text = 'There\'s a question that requires your expertise';
-      var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
-      url += 'channel=' + im.channel.id + '&as_user=true&text=' + text;
-      console.log(url);
-      robot.http(url)
-      .post()(function (error, res, data) {
-       if(error) {
-         return error;
-       }
-       console.log(data);
-       return;
+      robot.http(checkRoomUrl)
+      .get()(function (err, res, body) {
+        if(err) {
+          return err;
+        }
+        var im = JSON.parse(body);
+        console.log(im);
+        var text = 'There\'s a question that requires your expertise';
+        var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
+        url += 'channel=' + im.channel.id + '&as_user=true&text=' + text;
+        console.log(url);
+        robot.http(url)
+        .post()(function (error, res, data) {
+         if(error) {
+           return error;
+         }
+         console.log(data);
+         return;
+        });
       });
-    });
+    }
   });
 
   robot.respond(/#blocks/i, function (res) {
