@@ -124,7 +124,7 @@ module.exports = function (robot) {
     var checkRoomUrl = 'https://slack.com/api/im.open?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&user=';
     console.log(experts);
     for(i = 0; i < experts.length; i++) {
-       checkRoomUrl + experts[i].slack;
+      checkRoomUrl += experts[i].slack;
 
       robot.http(checkRoomUrl)
       .get()(function (err, res, body) {
