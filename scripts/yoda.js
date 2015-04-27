@@ -62,7 +62,6 @@ module.exports = function (robot) {
     robot.http('http://yodabot-api.herokuapp.com/questions')
     .headers({'Content-Type': 'application/json'})
     .post(user)(function (err, res, body) {
-      console.log(err);
       if(err) {
         console.log('Encountered an error - ' + err);
         return;
@@ -72,13 +71,6 @@ module.exports = function (robot) {
     });
 
     res.send('Thank you for your question.\nI will let you know as soon as there\'s any response to your question.');
-  });
-
-  robot.router.post('/experts', function (req, res) {
-    var experts = req.body;
-    console.log(experts);
-    robot.messageRoom('yoda-masters', 'Here are the experts: ' + experts.user.slack);
-    res.end('Data received by Master Yoda');
   });
 
   var yodaMaster = {
@@ -127,33 +119,56 @@ module.exports = function (robot) {
     }
   };
 
+  robot.router.post('/experts', function (req, res) {
+    var i, j, experts = req.body;
+    console.log(experts);
+    var checkRoomUrl = 'https://slack.com/api/im.open?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&user=' + experts.user.slack;
+
+    robot.http(checkRoomUrl)
+    .get()(function (err, res, body) {
+      if(err) {
+        return err;
+      }
+      var im = JSON.parse(body);
+      console.log(im);
+      var text = 'There\'s a question that requires your expertise';
+      var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
+      url += 'channel=' + im.channel.id + '&as_user=true&text=' + text;
+      console.log(url);
+      robot.http(url)
+      .post()(function (error, res, data) {
+       if(error) {
+         return error;
+       }
+       console.log(data);
+      });
+    });
+  });
+
   robot.respond(/#blocks/i, function (res) {
-     var url = 'https://knowledgebot.firebaseio.com/questions.json';
-     robot.http(url)
-        .get()(function (err, resp, body) {
-            if(err) {
-          console.log('Encountered an error!');
-          return;
-            }
-        var questions = JSON.parse(body);
-        var keys = Object.keys(questions),
-        len = keys.length - 10,
-        i = keys.length - 1,
-        question_id,
-        question;
-        res.send('The last 10 questions are;');
-        while (i > len) {
-          if (keys[i]) {
-           question_id = keys[i];
-           question = questions[question_id];
-           res.send('#' + question_id + '--------' + question.body);
-         }
-           i -= 1;
-        }
-      
-
-        });
-
+   var url = 'https://knowledgebot.firebaseio.com/questions.json';
+   robot.http(url)
+    .get()(function (err, resp, body) {
+      if(err) {
+        console.log('Encountered an error!');
+        return;
+      }
+      var questions = JSON.parse(body);
+      var keys = Object.keys(questions),
+      len = keys.length - 10,
+      i = keys.length - 1,
+      question_id,
+      question;
+      res.send('The last 10 questions are;');
+      while (i > len) {
+        if (keys[i]) {
+         question_id = keys[i];
+         question = questions[question_id];
+         res.send('#' + question_id + '--------' + question.body);
+       }
+         i -= 1;
+      }
+    });
   });
 
   robot.hear(/\a\: (.*) #(.*)/i, function (res) {
