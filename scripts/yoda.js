@@ -59,8 +59,8 @@ module.exports = function (robot) {
       tags: res.match[2]
     });
 
-    // robot.http('http://yodabot-api.herokuapp.com/questions')
-    robot.http('http://localhost:5555/questions')
+    robot.http('http://yodabot-api.herokuapp.com/questions')
+    // robot.http('http://localhost:5555/questions')
     .headers({'Content-Type': 'application/json'})
     .post(user)(function (err, res, body) {
       if(err) {
