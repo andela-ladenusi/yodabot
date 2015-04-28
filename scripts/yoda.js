@@ -125,26 +125,29 @@ module.exports = function (robot) {
     console.log(experts);
     for(i = 0; i < experts.length; i++) {
       checkRoomUrl += experts[i].slack;
+      console.log('\nRoom URL: ' + checkRoomUrl + '\n');
 
       robot.http(checkRoomUrl)
-      .get()(function (err, res, body) {
+      .get()(function (err, resp, body) {
         if(err) {
           return err;
         }
         var im = JSON.parse(body);
         console.log(im);
         var text = 'There\'s a question that requires your expertise';
-        var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
-        url += 'channel=' + im.channel.id + '&as_user=true&text=' + text;
-        console.log(url);
-        robot.http(url)
-        .post()(function (error, res, data) {
-         if(error) {
-           return error;
-         }
-         console.log(data);
-         return;
-        });
+        
+        if(im.channel.ok) {
+          var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
+          url += 'channel=' + im.channel.id + '&as_user=true&text=' + text;
+          console.log(url);
+          robot.http(url)
+          .post()(function (error, response, data) {
+           if(error) {
+             return error;
+           }
+           response.send('Successfully sent question to ' + im.channel.id);
+          });
+        }
       });
     }
   });
@@ -209,7 +212,7 @@ module.exports = function (robot) {
         }
         var apprenticeId = JSON.parse(body).userId;
         var msgAnswer = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
-        msgAnswer += 'channel=' + apprenticeId + '&username=yodabot&text=' + JSON.parse(answer).content;
+        msgAnswer += 'channel=' + apprenticeId + '&as_user=true&text=' + JSON.parse(answer).content;
         robot.http(msgAnswer)
         .post()(function (err, res, body) {
           if(err) {
@@ -220,5 +223,5 @@ module.exports = function (robot) {
 
 
   });
-  yodaMaster.getGroupMembers();
+  // yodaMaster.getGroupMembers();
 };
