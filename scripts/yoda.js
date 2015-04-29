@@ -141,20 +141,21 @@ module.exports = function (robot) {
             var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
             url += 'channel=' + im.channel.id + '&as_user=true&text=' + text;
             console.log(url);
+
             robot.http(url)
             .post()(function (error, response, data) {
              if(error) {
                return error;
              }
-             res.send('Successfully sent question to ' + im.channel.id);
+             console.log('Successfully sent question to ' + im.channel.id);
             });
           }
           else {
-            res.send('No expert found');
+            console.log('No expert found');
           }
         }
         else {
-          res.send('Cannot find expert');
+          console.log('Cannot find expert');
         }
       });
     }
