@@ -137,17 +137,25 @@ module.exports = function (robot) {
         console.log(im);
         var text = 'There\'s a question that requires your expertise';
         
-        if(im.channel.ok) {
-          var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
-          url += 'channel=' + im.channel.id + '&as_user=true&text=' + text;
-          console.log(url);
-          robot.http(url)
-          .post()(function (error, response, data) {
-           if(error) {
-             return error;
-           }
-           response.send('Successfully sent question to ' + im.channel.id);
-          });
+        if(im) {
+          if(im.channel.ok) {
+            var url = 'https://slack.com/api/chat.postMessage?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&';
+            url += 'channel=' + im.channel.id + '&as_user=true&text=' + text;
+            console.log(url);
+            robot.http(url)
+            .post()(function (error, response, data) {
+             if(error) {
+               return error;
+             }
+             res.send('Successfully sent question to ' + im.channel.id);
+            });
+          }
+          else {
+            res.send('Cannot find any expert to send questions to');
+          }
+        }
+        else {
+          res.send('Cannot find expert');
         }
       });
     }
