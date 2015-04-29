@@ -125,10 +125,9 @@ module.exports = function (robot) {
     var checkRoomUrl = 'https://slack.com/api/im.open?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&user=';
     console.log(experts);
     for(i = 0; i < experts.length; i++) {
-      checkRoomUrl += experts[i].slack;
-      console.log('\nRoom URL: ' + checkRoomUrl + '\n');
+      // console.log('\nRoom URL: ' + checkRoomUrl + '\n');
 
-      robot.http(checkRoomUrl)
+      robot.http(checkRoomUrl + experts[i].slack)
       .get()(function (err, resp, body) {
         if(err) {
           return err;
@@ -149,6 +148,9 @@ module.exports = function (robot) {
              }
              res.send('Successfully sent question to ' + im.channel.id);
             });
+          }
+          else {
+            res.send('No expert found');
           }
         }
         else {
