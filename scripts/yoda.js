@@ -121,20 +121,20 @@ module.exports = function (robot) {
   };
 
   robot.router.post('/experts', function (req, res) {
-    var i, j, experts = req.body;
+    var i, j, expertsObj = req.body;
     var checkRoomUrl = 'https://slack.com/api/im.open?token=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV&user=';
-    console.log(experts);
-    for(i = 0; i < experts.length; i++) {
+    console.log(expertsObj);
+    for(i = 0; i < expertsObj.experts.length; i++) {
       // console.log('\nRoom URL: ' + checkRoomUrl + '\n');
 
-      robot.http(checkRoomUrl + experts[i].slack)
+      robot.http(checkRoomUrl + expertsObj.experts[i].slack)
       .get()(function (err, resp, body) {
         if(err) {
           return err;
         }
         var im = JSON.parse(body);
         console.log(im);
-        var text = 'There\'s a question that requires your expertise';
+        var text = expertsObj.question || 'There\'s a question that requires your expertise';
         
         if(im) {
           if(im.ok) {
