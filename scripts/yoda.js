@@ -59,7 +59,7 @@ module.exports = function (robot) {
       tags: res.match[2]
     });
 
-    robot.http('http://yodabot-api.herokuapp.com/questions')
+    robot.http('http://yodabotapi.herokuapp.com/questions')
     // robot.http('http://localhost:5555/questions')
     .headers({'Content-Type': 'application/json'})
     .post(user)(function (err, res, body) {
@@ -198,7 +198,7 @@ module.exports = function (robot) {
       question_id: res.match[2]
     });
 
-    robot.http('http://yodabot-api.herokuapp.com/answers')
+    robot.http('http://yodabotapi.herokuapp.com/answers')
     .headers({'Content-Type': 'application/json'})
     .post(answer)(function (err, res, body) {
       console.log(err);
