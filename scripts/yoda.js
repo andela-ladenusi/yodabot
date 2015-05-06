@@ -134,7 +134,7 @@ module.exports = function (robot) {
         }
         var im = JSON.parse(body);
         console.log(im);
-        var text = expertsObj.question || 'There\'s a question that requires your expertise';
+        var text = 'Hello there!\nYour expertise is needed on a question below that I think you may be able to answer.\n' + expertsObj.question.body;
         
         if(im) {
           if(im.ok) {
