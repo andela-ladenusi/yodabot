@@ -148,14 +148,17 @@ module.exports = function (robot) {
                return error;
              }
              console.log('Successfully sent question to ' + im.channel.id);
+             res.status(200).send('Successfully sent question to ' + im.channel.id);
             });
           }
           else {
             console.log('No expert found');
+            res.status(404).send('No expert found');
           }
         }
         else {
           console.log('Cannot find expert');
+          res.status(404).send('Cannot find expert');
         }
       });
     }
