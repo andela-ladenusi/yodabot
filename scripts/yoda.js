@@ -11,9 +11,9 @@ module.exports = function (robot) {
     user.username = res.message.user.name;
     user.email    = res.message.user.email_address;
     user.channel  = res.message.rawMessage.channel;
-    user.setSkills = function (skills) {
-      this.skills  = skills;
-      return this.skills;
+    var setSkills = function (user, skills) {
+      user.skills  = skills;
+      return user;
     };
     user.github   = res.match[2];
     var skills = [];
@@ -33,7 +33,7 @@ module.exports = function (robot) {
         }
       }
       skills = _.uniq(skills);
-      user.setSkills(skills);
+      setSkills(user, skills);
       // res.send('I found these skills - `' + languages.toString().replace(/,/g, ', ') + '`');
       console.log(user);
 
