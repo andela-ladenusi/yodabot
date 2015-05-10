@@ -43,7 +43,7 @@ module.exports = function (robot) {
           console.log('Encountered an error - ' + err);
           return;
         }
-        console.log('Successfully registered user!');
+        console.log('This is the response - ' + body);
       });
     });
   });
