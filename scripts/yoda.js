@@ -1,15 +1,15 @@
 var _ = require('lodash');
 
 module.exports = function (robot) {
-  var user;
+  var user = {};
 
   // Register a user
   robot.hear(/(gh-user|github-username): @(.*)/i, function (res) {
     // console.log(res.match);
     console.log(res.message);
-    user.slack    = res.message.user;
-    // user.username = res.message.user.name;
-    // user.email    = res.message.user.email_address;
+    user.slack    = res.message.user.id;
+    user.username = res.message.user.name;
+    user.email    = res.message.user.email_address;
     user.channel  = res.message.rawMessage.channel;
     user.setSkills = function (skills) {
       this.skills  = skills;
