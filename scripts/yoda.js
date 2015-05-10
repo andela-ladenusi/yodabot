@@ -6,7 +6,7 @@ module.exports = function (robot) {
   // Register a user
   robot.hear(/(gh-user|github-username): @(.*)/i, function (res) {
     // console.log(res.match);
-    console.log(res.message);
+    // console.log(res.message);
     user.slack    = res.message.user.id;
     user.username = res.message.user.name;
     user.email    = res.message.user.email_address;
@@ -36,7 +36,15 @@ module.exports = function (robot) {
       setSkills(user, skills);
       // res.send('I found these skills - `' + languages.toString().replace(/,/g, ', ') + '`');
       console.log(user);
-
+      robot.http('http://yodabotapi.herokuapp.com/register')
+      .headers({'Content-Type': 'application/json'})
+      .post(user)(function (err, res, body) {
+        if(err) {
+          console.log('Encountered an error - ' + err);
+          return;
+        }
+        console.log('Successfully registered user!');
+      });
     });
   });
   
