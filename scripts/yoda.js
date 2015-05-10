@@ -1,19 +1,24 @@
 var _ = require('lodash');
 
 module.exports = function (robot) {
-  var newUser;
-  robot.hear(/(--ghuser|github-username): @(.*)/i, function (res) {
-    console.log(res.match);
-    newUser = res.message.user;
-    newUser.channel = res.message.rawMessage.channel;
-    newUser.setLanguages = function (languages) {
-      this.languages = languages;
-      return this.languages;
+  var user;
+
+  // Register a user
+  robot.hear(/(gh-user|github-username): @(.*)/i, function (res) {
+    // console.log(res.match);
+    console.log(res.message);
+    user.slack    = res.message.user.id;
+    user.username = res.message.user.name;
+    user.email    = res.message.user.email_address;
+    user.channel  = res.message.rawMessage.channel;
+    user.setSkills = function (skills) {
+      this.skills  = skills;
+      return this.skills;
     };
-    var languages = [];
+    user.github   = res.match[2];
+    var skills = [];
 
     var url = 'https://api.github.com/users/' + res.match[2] + '/repos';
-    console.log(url);
     robot.http(url)
     .get()(function (err, resp, body) {
       if(err) {
@@ -24,32 +29,33 @@ module.exports = function (robot) {
 
       for(i = 0; i < repos.length; i++) {
         if(repos[i].language) {
-          languages.push(repos[i].language);
+          skills.push(repos[i].language);
         }
       }
-      languages = _.uniq(languages);
-      newUser.setLanguages(languages);
-      res.send('I found these skills - `' + languages.toString().replace(/,/g, ', ') + '`');
-      console.log(newUser);
+      skills = _.uniq(skills);
+      user.setSkills(skills);
+      // res.send('I found these skills - `' + languages.toString().replace(/,/g, ', ') + '`');
+      console.log(user);
+      
     });
   });
   
-  robot.hear(/--rem-skill: #\[(.*)\]/i, function (res) {
-    console.log('\n');
-    console.log(res.match);
-    console.log(newUser);
-    if(res.match[1]) {
-      var unwantedSkills = res.match[1].split(/,\s/);
-      var i, index;
-      for(i = 0; i < unwantedSkills.length; i++) {
-        index = newUser.languages.indexOf(unwantedSkills[i]);
-        if(index > -1) {
-          newUser.languages.splice(index, 1);
-        }
-      }
-      res.send('These are your skills - `' + newUser.languages.toString().replace(/,/g, ', ') + '`');
-    }
-  });
+  // robot.hear(/--rem-skill: #\[(.*)\]/i, function (res) {
+  //   console.log('\n');
+  //   console.log(res.match);
+  //   console.log(newUser);
+  //   if(res.match[1]) {
+  //     var unwantedSkills = res.match[1].split(/,\s/);
+  //     var i, index;
+  //     for(i = 0; i < unwantedSkills.length; i++) {
+  //       index = newUser.languages.indexOf(unwantedSkills[i]);
+  //       if(index > -1) {
+  //         newUser.languages.splice(index, 1);
+  //       }
+  //     }
+  //     res.send('These are your skills - `' + newUser.languages.toString().replace(/,/g, ', ') + '`');
+  //   }
+  // });
   
   robot.hear(/\q\: (.*) #\[(.*)\]/i, function (res) {
     console.log(res.match);
@@ -60,7 +66,6 @@ module.exports = function (robot) {
     });
 
     robot.http('http://yodabotapi.herokuapp.com/questions')
-    // robot.http('http://localhost:5555/questions')
     .headers({'Content-Type': 'application/json'})
     .post(user)(function (err, res, body) {
       if(err) {
