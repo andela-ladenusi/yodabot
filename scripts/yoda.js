@@ -37,7 +37,7 @@ module.exports = function (robot) {
       // res.send('I found these skills - `' + languages.toString().replace(/,/g, ', ') + '`');
       console.log(user);
       robot.http('http://yodabotapi.herokuapp.com/users/register')
-      .headers({'Content-Type': 'application/json'})
+      // .headers({'Content-Type': 'application/json'})
       .post(user)(function (err, res, body) {
         if(err) {
           console.log('Encountered an error - ' + err);
