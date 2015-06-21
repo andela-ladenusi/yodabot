@@ -1,10 +1,8 @@
 var gulp = require('gulp');
-var shell = require('gulp-shell');
+var nodemon = require('gulp-nodemon');
 
-gulp.task('watch', function () {
-  gulp.watch('scripts/*.js', ['default', 'yoda']);
+gulp.task('yodabot', function(){
+	nodemon({ script: 'index.js' });
 });
 
-gulp.task('yoda', shell.task('HUBOT_SLACK_TOKEN=xoxb-4491956418-LUBmGhLmi2Mve6KJzOYZZvGV ./bin/hubot --adapter slack'));
-
-gulp.task('default', ['yoda', 'watch']);
+gulp.task('default', ['yodabot']);
