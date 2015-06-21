@@ -6,12 +6,12 @@ module.exports = function (robot) {
     var i, qid, question, expert, expertsObj = req.body;
     console.log(expertsObj);
 
-    for(i = 0; i < expertsObj.experts.length; i++) {
+    for (i = 0; i < expertsObj.experts.length; i++) {
     	expert 		= expertsObj.experts[i];
     	question 	= expertsObj.question;
     	qid				= question.id.substr(-8).toLowerCase();
 
-    	if(expert.username && (expert.slack !== question.userId)) {
+    	if (expert.username && (expert.slack !== question.userId)) {
     		var attachment 		= {
 					content					: {
 						color 				: '#439FE0',
@@ -29,6 +29,13 @@ module.exports = function (robot) {
 																+ '\n\n_Give your answer in this format:_ `a[' + qid + '] Your answer`';
 
 	    	robot.emit('slack-attachment', attachment);
+	    	setTimeout(function () {
+	    		attachment.channel = 'yoda-log';
+	    		attachment.content.pretext = '*New question from* `' + question.username + '`';
+	    		attachment.content.fallback = attachment.content.pretext;
+	    		attachment.content.text = '*Question:* ' + question.body;
+	    		robot.emit('slack-attachment', attachment);
+	    	}, 2000);
 	    	console.log('Question has been sent to - ', expert.username);
 	    }
     }

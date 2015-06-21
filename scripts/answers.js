@@ -6,6 +6,7 @@ module.exports 	= function (robot) {
 	robot.hear(/a\[(.*)\] (.*)/i, function (response) {
     var answer = {
       slack					: response.message.user.id,
+      username      : response.message.user.name,
       qid 					: response.match[1],
       content		 		: response.match[2]
     };
@@ -37,7 +38,15 @@ module.exports 	= function (robot) {
 																// + ' <http://localhost:8080/answers/yes?uname=' + data.username + '|Yes>'
 																// + ' <http://localhost:8080/answers/no|No>';
 
-	    	return robot.emit('slack-attachment', attachment);
+	    	robot.emit('slack-attachment', attachment);
+
+        setTimeout(function () {
+          attachment.channel = 'yoda-log';
+          attachment.content.fallback = attachment.content.pretext = '*New response from* `' + answer.username + '`';
+          attachment.content.text = '*Response:* ' + data.answer.content;
+
+          robot.emit('slack-attachment', attachment);
+        }, 2000);
       }
     });
   });
