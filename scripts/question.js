@@ -17,6 +17,7 @@ module.exports = function (robot) {
         console.log('Encountered an error - ' + err);
         return 'Encountered an error - ' + err;
       }
+      console.log(body);
       return 'The question was successfully sent';
     });
     response.send('Thank you for your question.\nI will let you know as soon as there\'s any response to your question.');
