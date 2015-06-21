@@ -11,7 +11,7 @@ module.exports = function (robot) {
     	question 	= expertsObj.question;
     	qid				= question.id.substr(-8).toLowerCase();
 
-    	if(expert.username) {
+    	if(expert.username && (expert.slack !== question.userId)) {
     		var attachment 		= {
 					content					: {
 						color 				: '#439FE0',
@@ -27,10 +27,10 @@ module.exports = function (robot) {
 																// + '\n>_If you wish to decline this question, click_'
 																// + ' <http://localhost:8080/question/decline|Decline>'
 																+ '\n\n_Give your answer in this format:_ `a[' + qid + '] Your answer`';
-																
-	    	return robot.emit('slack-attachment', attachment);
+
+	    	robot.emit('slack-attachment', attachment);
+	    	console.log('Question has been sent to - ', expert.username);
 	    }
-	    console.log('Question has been sent to - ', expert.username);
     }
     res.status(200).send('Question has been sent to the experts');
   });
