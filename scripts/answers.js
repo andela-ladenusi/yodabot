@@ -42,7 +42,7 @@ module.exports 	= function (robot) {
 
         setTimeout(function () {
           attachment.channel = 'yoda-log';
-          attachment.content.fallback = attachment.content.pretext = '*New response from* `' + answer.username + '`';
+          attachment.content.fallback = attachment.content.pretext = '*New response from* `@' + answer.username + '`';
           attachment.content.text = '*Response:* ' + data.answer.content;
 
           robot.emit('slack-attachment', attachment);
