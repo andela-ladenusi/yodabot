@@ -40,7 +40,7 @@ module.exports = function (robot) {
       //     robot.emit('slack-attachment', attachment);
       //   }, 2000);
       //   return;
-      }
+      // }
     });
     response.send('Thank you for your question.\nI will let you know as soon as there\'s any response to your question.');
 	});
