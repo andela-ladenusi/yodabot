@@ -12,7 +12,7 @@ module.exports = function (robot) {
 
     var attachment = {};
     attachment.channel = 'yoda-log';
-    attachment.content.color = '#439FE0'
+    attachment.content.color = '#439FE0';
 		attachment.content.pretext = '*New question from* `' + question.username + '` with the following tags - `' +  question.tags.toString().split(',') + '`';
 		attachment.content.fallback = attachment.content.pretext;
 		attachment.content.text = '*Question:* `[' + question.id.substr(-8).toLowerCase() +']` ' + question.body;
