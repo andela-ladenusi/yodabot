@@ -10,7 +10,7 @@ module.exports = function (robot) {
     	return;
     }
 
-    var attachment = {};
+    var attachment = {content: {}};
     attachment.channel = 'yoda-log';
     attachment.content.color = '#439FE0';
 		attachment.content.pretext = '*New question from* `' + question.username + '` with the following tags - `' +  question.tags.toString().split(',') + '`';
