@@ -7,27 +7,7 @@ module.exports = function (robot) {
     question 	= expertsObj.question;
     console.log(expertsObj);
     if (!expertsObj.experts) {
-    	var attachment 		= {
-				content					: {
-					color 				: 'warning',
-					fallback			: ":cry: There are currently no experts for your question",
-					pretext				: ':cry: *There are currently no experts for your question*',
-					text					: '_Why not try to ask the same question with different & simpler tags, maybe?_',
-					mrkdwn_in			: ['fallback', 'text', 'pretext']
-				},
-				channel					: question.username
-			};
-
-			robot.emit('slack-attachment', attachment);
-			setTimeout(function () {
-    		attachment.channel = 'yoda-log';
-    		attachment.content.color = 'danger';
-    		attachment.content.pretext = '*New question from* `' + question.username + '`';
-    		attachment.content.fallback = attachment.content.pretext;
-    		attachment.content.text = '*Question:* ' + question.body;
-    		robot.emit('slack-attachment', attachment);
-    	}, 2000);
-    	return res.status(404).send('I am sorry, but there are currently no experts for your question');
+    	return;
     }
 
     for (i = 0; i < expertsObj.experts.length; i++) {
