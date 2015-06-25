@@ -16,7 +16,7 @@ module.exports = function (robot) {
     attachment.content.mrkdwn_in = ['text', 'pretext'];
 		attachment.content.pretext = '*New question*  tagged - `' +  question.tags.toString().split(',') + '`';
 		attachment.content.fallback = attachment.content.pretext;
-		attachment.content.author_name = 'QUestion [' + question.id.substr(-8).toLowerCase() +'] by @' + question.username;
+		attachment.content.author_name = '[' + question.id.substr(-8).toLowerCase() +'] by @' + question.username;
 		attachment.content.text = '*Question*: ' + question.body;
 		
 		robot.emit('slack-attachment', attachment);
