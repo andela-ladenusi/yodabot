@@ -3,6 +3,7 @@ module.exports = function (robot) {
 		var message = 'Thank you for getting in touch.\nBelow is the current list of available commands'
 								+ '\n> `register` - To register your github account and your slack details with me'
 								+ '\n\n> `gh-user @yourgithubusername` - To allow me connect with your github account and pull your skillset'
+								+ '\n\n> `show-skills` - To list your skills from your skillset'
                 + '\n\n> `add-skill #[skill]` - To add to your skillset, if you have more than the skills pulled from your github repos. e.g `add-skill #[Java, SQL]`'
                 + '\n\n> `remove-skill #[skill]` - To remove from your skillset e.g `remove-skill #[Java, SQL]`'
 								+ '\n\n> `q: Your question? #[tag]` - To ask a question, use this format and ask the question. You must also include, at least, a tag(s) in the tag identifier, and you can also have comma-separated tags in the tag identifier - `#[Java, SQL]`'
