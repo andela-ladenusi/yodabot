@@ -1,5 +1,5 @@
 module.exports = function (robot) {
-	robot.respond(/-help|hello|hi/i, function (response) {
+	robot.respond(/help|hello|hi/i, function (response) {
 		var message = 'Thank you for getting in touch.\nBelow is the current list of available commands'
 								+ '\n> `register` - To register your github account and your slack details with me'
 								+ '\n\n> `gh-user @yourgithubusername` - To allow me connect with your github account and pull your skillset'
