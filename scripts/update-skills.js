@@ -40,4 +40,36 @@ module.exports = function (robot) {
     });
     response.send('Thank you for updating your skills.');
   });
+
+  robot.hear(/show-skills/i, function (response) {
+    var slackID = response.message.user.id;
+    var username = response.message.user.name;
+    robot.http(apiHost + '/users/' + slackID + '/skills')
+    .headers({'Content-Type': 'application/json'})
+    .get()(function (err, res, body) {
+      if (err) {
+        console.log('Encountered an error - ' + err);
+        return 'Encountered an error - ' + err;
+      }
+
+      body = JSON.parse(body);
+      if (body.error) {
+        return response.send(body.error);
+      }
+
+      if (body.response) {
+        return robot.emit('slack-attachment', {
+          content         : {
+            color         : 'good',
+            fallback      : "Here are your skills",
+            pretext       : 'Here are your skills',
+            title         : 'Your Skills',
+            text          : '`' + body.response.toString().replace(/,/g, ', ') + '`',
+            mrkdwn_in     : ['text', 'pretext']
+          },
+          channel         : username
+        });
+      }
+    });
+  });
 };
