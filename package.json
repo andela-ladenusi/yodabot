@@ -5,6 +5,7 @@
   "author": "Ladi Adenusi <andela-ladenusi <ladi.adenusi@andela.co>",
   "description": "A bot that you can ask questions and it sends you feedback/responses as soon as they come in",
   "dependencies": {
+    "http": "0.0.0",
     "hubot": "^2.12.0",
     "hubot-diagnostics": "0.0.1",
     "hubot-google-images": "^0.1.4",
