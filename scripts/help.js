@@ -1,4 +1,20 @@
 module.exports = function (robot) {
+	var env = process.env.NODE_ENV || 'development';
+
+	if (env === 'production') {
+		var apiHost = process.env.YODABOT_API_URL || 'http://localhost:5555';
+		// keep the yodabotapi server alive;
+		setInterval(function() {
+	    robot.http(apiHost)
+	    .get()(function (err, res, body) {
+	    	if (err) {
+	    		return err;
+	    	}
+	    	console.log('This is the response from the API server: ', body);
+	    });
+		}, 300000);
+	}
+
 	robot.respond(/help|hello|hi/i, function (response) {
 		var message = 'Thank you for getting in touch.\nBelow is the current list of available commands'
 								+ '\n> `register` - To register your github account and your slack details with me'
